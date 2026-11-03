@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>Cüzdanım | IndexedDB Testi</title>
+    <style>
+      :root { color-scheme: dark; font: 15px/1.55 system-ui, sans-serif; background: #0b1220; color: #f0f4f8; }
+      * { box-sizing: border-box; }
+      body { max-width: 760px; margin: 0 auto; padding: 32px 18px; }
+      h1 { margin: 0 0 8px; font-size: 25px; }
+      p { color: #9aa8bb; }
+      .panel { margin-top: 22px; padding: 20px; border: 1px solid #223149; border-radius: 13px; background: #111c2c; }
+      #summary { margin: 0 0 14px; color: #20c997; font-weight: 700; }
+      ol { display: grid; gap: 8px; padding-left: 25px; }
+      li { padding-left: 3px; }
+      li.pass::marker { color: #39d98a; }
+      li.fail::marker { color: #ff6b75; }
+      .note { margin-top: 18px; font-size: 12px; }
+      a { color: #20c997; }
+      #app-frame { position: fixed; right: 0; bottom: 0; width: 400px; height: 760px; transform: translateX(110%); border: 0; pointer-events: none; opacity: .01; }
+    </style>
+    <script type="module" src="./indexeddb.test.js"></script>
+  </head>
+  <body>
+    <h1>IndexedDB altyapı testi</h1>
+    <p>Testler CuzdanimDB veritabanını ve gerçek tarayıcı IndexedDB API'sini kullanır. Test kayıtları işlem bitince temizlenir.</p>
+    <section class="panel" aria-live="polite">
+      <p id="summary">Test hazırlanıyor…</p>
+      <ol id="results"></ol>
+      <p class="note">Testler tamamlandığında uygulamaya <a href="../index.html">geri dön</a>.</p>
+    </section>
+    <iframe id="app-frame" title="Cüzdanım form entegrasyon testi" src="../index.html"></iframe>
+  </body>
+</html>

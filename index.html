@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" />
+    <meta name="description" content="Cüzdanım kişisel finans dashboard örneği." />
+    <title>Cüzdanım | Ana Sayfa</title>
+    <script>try { const t = localStorage.getItem('cuzdanim.theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch {}</script>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#home" aria-label="Cüzdanım ana sayfa">
+          <img class="brand-logo" src="assets/images/cuzdanim-logo.svg" alt="" aria-hidden="true" /><span>Cüzdanım</span>
+        </a>
+        <div class="topbar-actions">
+          <button class="icon-button notification-button" type="button" aria-label="Bildirimler" aria-expanded="false" aria-controls="notification-panel"><span aria-hidden="true">♧</span><span class="notification-count" id="notification-count" hidden></span></button>
+          <a class="icon-button settings-button" href="#settings" aria-label="Ayarlar">⚙</a>
+          <div class="avatar" aria-label="Berke Kullanıcı">BK</div>
+        </div>
+        <section class="notification-panel" id="notification-panel" aria-labelledby="notification-title" hidden>
+          <div class="notification-panel-heading"><div><h2 id="notification-title">Bildirimler</h2><p id="notification-summary" class="muted">Bildirimler yükleniyor…</p></div><button id="notifications-read-all" type="button" class="notification-read-all" hidden>Tümünü okundu işaretle</button></div>
+          <div class="notification-list" id="notification-list" aria-live="polite"><p class="notification-empty">Bildirimler yükleniyor…</p></div>
+        </section>
+      </header>
+
+      <nav class="desktop-nav" aria-label="Ana navigasyon">
+        <a class="active" href="#home" aria-current="page">Ana Sayfa</a>
+        <a href="#transactions">İşlemler</a><a href="#subscriptions">Abonelikler</a><a href="#budgets">Bütçeler</a>
+        <a href="#reports">Raporlar</a><a href="#settings">Ayarlar</a>
+      </nav>
+
+      <main id="home" class="dashboard">
+        <section class="welcome-row">
+          <div><p class="eyebrow">PAZARTESİ, 2 KASIM 2026</p><h1>Merhaba, Berke <span aria-hidden="true">✦</span></h1><p class="muted">Finansal durumuna genel bir bakış.</p></div>
+        </section>
+
+        <section class="overview-grid" aria-label="Finansal özet">
+          <article class="balance-card">
+            <div class="balance-top"><span class="balance-label">Toplam bakiye</span><span class="balance-symbol" aria-hidden="true">₺</span></div>
+            <p class="balance-amount" id="dashboard-balance">₺ 0,00</p>
+            <div class="balance-bottom"><span><i class="status-dot"></i> Kayıtlı işlemler</span><span class="balance-period">Tüm zamanlar</span></div>
+            <div class="balance-orb orb-one"></div><div class="balance-orb orb-two"></div>
+          </article>
+          <article class="card metric-card income-card">
+            <div class="metric-heading"><span>Toplam gelir</span><span class="metric-icon" aria-hidden="true">↙</span></div>
+            <p class="metric-value" id="dashboard-income">₺ 0,00</p>
+            <p class="metric-caption"><span class="positive-mark">↑</span> Kaydedilen tüm gelirler</p>
+          </article>
+          <article class="card metric-card expense-card">
+            <div class="metric-heading"><span>Toplam gider</span><span class="metric-icon" aria-hidden="true">↗</span></div>
+            <p class="metric-value" id="dashboard-expense">₺ 0,00</p>
+            <p class="metric-caption"><span class="negative-mark">↓</span> Kaydedilen tüm giderler</p>
+          </article>
+        </section>
+
+        <section class="main-grid">
+          <article class="card chart-card" aria-labelledby="chart-title">
+            <div class="section-heading"><div><h2 id="chart-title">Son 7 gün</h2><p class="muted">Günlük gelir ve gider hareketleri</p></div></div>
+            <div class="chart-legend"><span class="legend-item"><i class="legend-dot"></i> Gelir</span><span class="legend-item"><i class="legend-dot legend-expense"></i> Gider</span><span class="chart-range">Günlük toplam</span></div>
+            <div class="chart-wrap" id="dashboard-chart" role="img" aria-label="Son yedi günlük gelir ve gider grafiği">
+              <div class="y-axis"><span>₺ 0,00</span><span>₺ 0,00</span><span>₺ 0,00</span><span>₺ 0,00</span><span>₺ 0,00</span></div>
+              <div class="plot">
+                <div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                <svg class="chart-svg" viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true">
+                  <defs><linearGradient id="area-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#20c997" stop-opacity=".27"/><stop offset="100%" stop-color="#20c997" stop-opacity="0"/></linearGradient></defs>
+                </svg>
+                <div class="x-axis" id="dashboard-chart-labels"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card quick-card" aria-labelledby="quick-title">
+            <div class="section-heading"><div><h2 id="quick-title">Hızlı işlem</h2><p class="muted">Bir işlemle başla</p></div><span class="quick-spark" aria-hidden="true">✳</span></div>
+            <button class="quick-action quick-income" type="button" data-transaction="income"><span class="quick-icon" aria-hidden="true">＋</span><span><strong>Gelir ekle</strong><small>Yeni bir gelir kaydet</small></span><span class="quick-arrow" aria-hidden="true">→</span></button>
+            <button class="quick-action quick-expense" type="button" data-transaction="expense"><span class="quick-icon" aria-hidden="true">−</span><span><strong>Gider ekle</strong><small>Yeni bir harcama kaydet</small></span><span class="quick-arrow" aria-hidden="true">→</span></button>
+            <p class="quick-note">Kayıtlar bu tarayıcıda saklanır.</p>
+          </article>
+        </section>
+
+        <section class="card transactions-card" id="recent-transactions" aria-labelledby="transactions-title">
+          <div class="section-heading"><div><h2 id="transactions-title">Son işlemler</h2><p class="muted">En son kaydedilen işlemlerin</p></div><a class="view-all" href="#transactions">Tüm işlemler <span aria-hidden="true">→</span></a></div>
+          <div class="transaction-list" id="dashboard-transactions" aria-live="polite">
+            <div class="transactions-empty"><span class="empty-icon" aria-hidden="true">⇄</span><strong>Henüz işlem yok</strong><span>Eklediğin işlemler burada görünecek.</span></div>
+          </div>
+        </section>
+        <footer class="page-footer"><span class="footer-dot"></span> Cüzdanım <span class="footer-separator">·</span> Veriler bu tarayıcıda saklanır.</footer>
+
+        <section class="transactions-view" id="transactions-view" aria-labelledby="all-transactions-title" hidden>
+          <div class="transactions-page-heading">
+            <div><p class="eyebrow">CÜZDAN HAREKETLERİ</p><h1 id="all-transactions-title">İşlemler</h1><p class="muted">Gelir ve gider kayıtlarını ara, filtrele ve yönet.</p></div>
+            <button class="button button-primary transactions-add" type="button" data-transaction="expense">＋ İşlem ekle</button>
+          </div>
+          <section class="card transactions-toolbar" aria-label="İşlem filtreleri">
+            <label class="transactions-search">Ara
+              <input id="transactions-search" type="search" placeholder="Açıklama veya kategori" autocomplete="off" />
+            </label>
+            <label>İşlem türü
+              <select id="transactions-type"><option value="all">Tümü</option><option value="income">Gelir</option><option value="expense">Gider</option></select>
+            </label>
+            <label>Kategori
+              <select id="transactions-category"><option value="all">Tüm kategoriler</option></select>
+            </label>
+            <label>Sıralama
+              <select id="transactions-sort"><option value="desc">En yeni</option><option value="asc">En eski</option></select>
+            </label>
+          </section>
+          <section class="card all-transactions-card" aria-label="İşlem listesi">
+            <p class="transactions-count" id="transactions-count" aria-live="polite"></p>
+            <div class="all-transaction-list" id="all-transactions-list" aria-live="polite"></div>
+            <button class="button transactions-load-more" id="transactions-load-more" type="button" hidden>Daha fazla yükle</button>
+          </section>
+        </section>
+
+        <section class="subscriptions-view" id="subscriptions-view" aria-labelledby="subscriptions-title" hidden>
+          <div class="subscriptions-page-heading">
+            <div><p class="eyebrow">DÜZENLİ ÖDEMELER</p><h1 id="subscriptions-title">Abonelikler</h1><p class="muted">Aboneliklerini ve yaklaşan ödemelerini yönet.</p></div>
+            <button class="button button-primary subscription-add-button" type="button">＋ Abonelik ekle</button>
+          </div>
+          <p class="subscription-feedback" id="subscriptions-feedback" role="status" aria-live="polite"></p>
+
+          <section class="subscription-summary-grid" aria-label="Abonelik özeti" aria-busy="true">
+            <article class="card subscription-summary-card">
+              <span>Aylık maliyet</span><strong id="subscription-monthly-cost">—</strong><small>Aktif aboneliklerin aylık karşılığı</small>
+            </article>
+            <article class="card subscription-summary-card">
+              <span>Yıllık maliyet</span><strong id="subscription-yearly-cost">—</strong><small>Aktif aboneliklerin yıllık karşılığı</small>
+            </article>
+            <article class="card subscription-summary-card subscription-count-card">
+              <span>Aktif abonelik</span><strong id="subscription-active-count">—</strong><small>İptal edilmemiş abonelikler</small>
+            </article>
+          </section>
+
+          <section class="card subscription-section upcoming-section" aria-labelledby="upcoming-title">
+            <div class="section-heading"><div><h2 id="upcoming-title">Yaklaşan ödemeler</h2><p class="muted">Vadesi geçen ve önümüzdeki 30 gündeki ödemeler</p></div></div>
+            <div class="upcoming-group" id="overdue-payments-group" hidden><h3>Vadesi geçmiş</h3><div class="upcoming-list" id="overdue-payments"></div></div>
+            <div class="upcoming-group" id="upcoming-payments-group" hidden><h3>Yaklaşan</h3><div class="upcoming-list" id="upcoming-payments"></div></div>
+            <div class="subscription-empty" id="upcoming-empty" hidden>Önümüzdeki 30 gün için ödeme bulunmuyor.</div>
+          </section>
+
+          <section class="subscription-section" aria-labelledby="active-subscriptions-title">
+            <div class="section-heading subscription-list-heading"><div><h2 id="active-subscriptions-title">Aktif abonelikler</h2><p class="muted">Düzenli ödemelerin ve sonraki vadeleri</p></div></div>
+            <div class="subscription-list" id="active-subscriptions" aria-live="polite"><div class="subscription-loading">Abonelikler yükleniyor…</div></div>
+          </section>
+
+          <section class="subscription-section cancelled-section" aria-labelledby="cancelled-subscriptions-title">
+            <div class="section-heading subscription-list-heading"><div><h2 id="cancelled-subscriptions-title">İptal edilen abonelikler</h2><p class="muted">Ödeme geçmişi korunur</p></div></div>
+            <div class="subscription-list" id="cancelled-subscriptions" aria-live="polite"><div class="subscription-loading">Abonelikler yükleniyor…</div></div>
+          </section>
+        </section>
+
+        <section class="budgets-view" id="budgets-view" aria-labelledby="budgets-title" hidden>
+          <div class="budgets-page-heading">
+            <div><p class="eyebrow">AYLIK HARCAMA PLANI</p><h1 id="budgets-title">Bütçeler</h1><p class="muted">Kategorilerine göre bu ayki harcamalarını takip et.</p></div>
+            <button class="button button-primary budget-add-button" type="button">＋ Bütçe ekle</button>
+          </div>
+          <p class="budget-feedback" id="budgets-feedback" role="status" aria-live="polite"></p>
+          <section class="budget-summary-grid" aria-label="Bütçe özeti" aria-busy="true">
+            <article class="card budget-summary-card"><span>Toplam aylık bütçe</span><strong id="budget-total-amount">—</strong></article>
+            <article class="card budget-summary-card"><span>Bu ay harcanan</span><strong id="budget-total-spent">—</strong></article>
+            <article class="card budget-summary-card"><span>Kalan bütçe</span><strong id="budget-total-remaining">—</strong></article>
+          </section>
+          <section class="budget-list-section" aria-labelledby="budget-list-title">
+            <div class="section-heading"><div><h2 id="budget-list-title">Kategori bütçeleri</h2><p class="muted">Harcamalar mevcut gider kayıtlarından hesaplanır.</p></div></div>
+            <div class="budget-list" id="budget-list" aria-live="polite"><div class="budget-loading">Bütçeler yükleniyor…</div></div>
+          </section>
+        </section>
+
+        <section class="reports-view" id="reports-view" aria-labelledby="reports-title" hidden>
+          <div class="reports-page-heading">
+            <div><p class="eyebrow">GELİR VE GİDER ANALİZİ</p><h1 id="reports-title">Raporlar</h1><p class="muted">Finansal hareketlerini seçtiğin döneme göre incele.</p></div>
+          </div>
+          <section class="card reports-filter" aria-label="Rapor tarih filtresi">
+            <label for="reports-period">Dönem</label>
+            <select id="reports-period">
+              <option value="this-month">Bu ay</option>
+              <option value="last-month">Geçen ay</option>
+              <option value="last-6-months">Son 6 ay</option>
+              <option value="last-12-months">Son 12 ay</option>
+              <option value="custom">Özel tarih aralığı</option>
+            </select>
+            <div class="reports-custom-range" id="reports-custom-range" hidden>
+              <label>Başlangıç<input id="reports-start-date" type="date" /></label>
+              <label>Bitiş<input id="reports-end-date" type="date" /></label>
+              <button class="button button-primary" id="reports-apply-range" type="button">Uygula</button>
+            </div>
+          </section>
+          <p class="reports-feedback" id="reports-feedback" role="status" aria-live="polite"></p>
+          <section class="reports-summary-grid" aria-label="Finansal özet" aria-busy="true">
+            <article class="card report-metric"><span>Toplam gelir</span><strong id="report-income">—</strong><small id="report-income-change">Önceki döneme göre —</small></article>
+            <article class="card report-metric"><span>Toplam gider</span><strong id="report-expense">—</strong><small id="report-expense-change">Önceki döneme göre —</small></article>
+            <article class="card report-metric"><span>Net tasarruf</span><strong id="report-net">—</strong><small id="report-net-change">Önceki döneme göre —</small></article>
+            <article class="card report-metric"><span>Tasarruf oranı</span><strong id="report-savings-rate">—</strong><small>Net tasarruf / toplam gelir</small></article>
+          </section>
+          <p class="reports-range-label" id="reports-range-label"></p>
+
+          <section class="reports-chart-grid">
+            <article class="card report-panel monthly-report-panel">
+              <div class="section-heading"><div><h2>Aylık gelir ve gider</h2><p class="muted">Seçilen dönemin aylık toplamları</p></div></div>
+              <div class="report-chart-legend"><span><i class="report-legend-income"></i> Gelir</span><span><i class="report-legend-expense"></i> Gider</span></div>
+              <div class="report-monthly-chart" id="reports-monthly-chart" aria-label="Aylık gelir gider grafiği"></div>
+              <p class="report-chart-empty" id="reports-monthly-empty" hidden>Bu dönemde gelir veya gider kaydı yok.</p>
+            </article>
+            <article class="card report-panel category-report-panel">
+              <div class="section-heading"><div><h2>Gider dağılımı</h2><p class="muted">Kategori bazında seçilen dönem</p></div></div>
+              <div class="report-donut-wrap">
+                <div class="report-donut" id="reports-donut" role="img" aria-label="Kategori bazında gider dağılımı"><span id="reports-donut-total">₺ 0,00</span><small>Toplam gider</small></div>
+              </div>
+              <ul class="report-category-legend" id="reports-category-legend"></ul>
+              <p class="report-chart-empty" id="reports-category-empty" hidden>Bu dönemde gider kaydı yok.</p>
+            </article>
+          </section>
+
+          <section class="reports-analysis-grid">
+            <article class="card report-panel top-category-panel">
+              <div class="section-heading"><div><h2>En çok harcama yapılanlar</h2><p class="muted">İlk 5 kategori ve gider içindeki payı</p></div></div>
+              <ol class="report-top-categories" id="reports-top-categories"></ol>
+              <p class="report-chart-empty" id="reports-top-empty" hidden>Karşılaştırma için gider kaydı yok.</p>
+            </article>
+            <article class="card report-panel savings-panel">
+              <div class="section-heading"><div><h2>Aylık tasarruf analizi</h2><p class="muted">Gelir ile gider arasındaki fark</p></div></div>
+              <strong class="report-period-net" id="reports-period-net">—</strong>
+              <div class="report-savings-months" id="reports-savings-months"></div>
+              <p class="report-chart-empty" id="reports-savings-empty" hidden>Bu dönemde tasarruf verisi yok.</p>
+            </article>
+          </section>
+        </section>
+
+        <section class="settings-view" id="settings-view" aria-labelledby="settings-title" hidden>
+          <div class="settings-page-heading"><div><p class="eyebrow">UYGULAMA TERCİHLERİ</p><h1 id="settings-title">Ayarlar</h1><p class="muted">Görünümü ve cihazındaki verileri yönet.</p></div></div>
+          <p class="settings-feedback" id="settings-feedback" role="status" aria-live="polite"></p>
+          <section class="card settings-card" aria-labelledby="appearance-title">
+            <div class="settings-card-heading"><h2 id="appearance-title">Görünüm</h2><p class="muted">Tema tercihin bu cihazda saklanır.</p></div>
+            <label class="settings-field">Tema
+              <select id="settings-theme"><option value="dark">Koyu tema</option><option value="light">Açık tema</option></select>
+            </label>
+          </section>
+          <section class="card settings-card" aria-labelledby="data-overview-title">
+            <div class="settings-card-heading"><h2 id="data-overview-title">Veri özeti</h2><p class="muted">Bu cihazdaki IndexedDB kayıtları</p></div>
+            <dl class="settings-stat-list" id="settings-stat-list" aria-busy="true">
+              <div><dt>Toplam işlem</dt><dd id="settings-transaction-count">—</dd></div>
+              <div><dt>Aktif abonelik</dt><dd id="settings-subscription-count">—</dd></div>
+              <div><dt>Bütçe</dt><dd id="settings-budget-count">—</dd></div>
+              <div><dt>Veritabanı sürümü</dt><dd id="settings-database-version">—</dd></div>
+              <div><dt>Son yedekleme</dt><dd id="settings-last-backup">Henüz yedek alınmadı</dd></div>
+            </dl>
+          </section>
+          <section class="card settings-card" aria-labelledby="backup-title">
+            <div class="settings-card-heading"><h2 id="backup-title">Yedekleme ve geri yükleme</h2><p class="muted">Tüm kayıtların tek bir JSON dosyasına aktarılır.</p></div>
+            <div class="settings-action-row">
+              <button class="button button-primary" id="backup-export" type="button">Yedeği indir</button>
+              <input id="backup-file" class="settings-file-input" type="file" accept="application/json,.json" />
+              <label class="button settings-file-label" for="backup-file">JSON yedeği seç</label>
+            </div>
+            <p class="settings-note">Geri yükleme mevcut uygulama verilerinin tamamını yedekteki kayıtlarla değiştirir. Önce yedek indirmek iyi bir korumadır.</p>
+          </section>
+          <section class="card settings-card settings-reset-card" aria-labelledby="reset-title">
+            <div class="settings-card-heading"><h2 id="reset-title">Tüm verileri sıfırla</h2><p class="muted">Bu işlem geri alınamaz. İşlemler, özel kategoriler, abonelikler, ödeme geçmişi ve bütçeler silinir; varsayılan kategoriler korunur.</p></div>
+            <button class="button button-danger" id="data-reset" type="button">Tüm uygulama verilerini sıfırla</button>
+          </section>
+        </section>
+      </main>
+
+      <nav class="mobile-nav" aria-label="Ana navigasyon">
+        <a href="#home" aria-current="page"><span aria-hidden="true">⌂</span><small>Ana Sayfa</small></a>
+        <a href="#transactions"><span aria-hidden="true">⇄</span><small>İşlemler</small></a>
+        <a href="#subscriptions"><span aria-hidden="true">⟳</span><small>Abonelikler</small></a>
+        <a href="#budgets"><span aria-hidden="true">▤</span><small>Bütçeler</small></a>
+        <a href="#reports"><span aria-hidden="true">▥</span><small>Raporlar</small></a>
+        <a href="#settings"><span aria-hidden="true">⚙</span><small>Ayarlar</small></a>
+      </nav>
+
+      <dialog class="transaction-dialog" aria-labelledby="dialog-title">
+        <form class="dialog-form" novalidate>
+          <button class="dialog-close" type="button" aria-label="Kapat">×</button>
+          <span class="dialog-icon" aria-hidden="true">＋</span>
+          <h2 id="dialog-title">İşlem ekle</h2>
+          <p class="muted">Gelir veya gider kaydını cüzdanına ekle.</p>
+          <label>İşlem türü
+            <select id="transaction-type" name="type" required>
+              <option value="income">Gelir</option>
+              <option value="expense">Gider</option>
+            </select>
+          </label>
+          <label>Tutar (TL)
+            <input id="transaction-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Örn. 1.250,75" required />
+          </label>
+          <label>Kategori
+            <select id="transaction-category" name="categoryId" required>
+              <option value="">Kategori seç</option>
+            </select>
+          </label>
+          <label>Tarih<input id="transaction-date" name="date" type="date" required /></label>
+          <label>Açıklama<input id="transaction-description" name="description" type="text" maxlength="120" placeholder="Örn. Market alışverişi" autocomplete="off" required /></label>
+          <p class="form-feedback" role="status" aria-live="polite"></p>
+          <button class="button button-primary dialog-submit" type="submit">İşlemi kaydet</button>
+        </form>
+      </dialog>
+      <dialog class="confirm-dialog" id="delete-confirm-dialog" aria-labelledby="delete-confirm-title">
+        <form method="dialog" class="confirm-dialog-content">
+          <h2 id="delete-confirm-title">İşlem silinsin mi?</h2>
+          <p class="muted">Bu işlem kalıcı olarak silinecek.</p>
+          <div class="confirm-actions"><button class="button" value="cancel">Vazgeç</button><button class="button button-danger" value="confirm">İşlemi sil</button></div>
+        </form>
+      </dialog>
+      <dialog class="subscription-dialog" id="subscription-dialog" aria-labelledby="subscription-dialog-title">
+        <form class="dialog-form subscription-form" id="subscription-form" novalidate>
+          <button class="dialog-close" type="button" aria-label="Kapat">×</button>
+          <span class="dialog-icon" aria-hidden="true">⟳</span>
+          <h2 id="subscription-dialog-title">Abonelik ekle</h2>
+          <p class="muted">Düzenli ödemenin bilgilerini gir.</p>
+          <label>Abonelik adı
+            <input id="subscription-name" name="name" type="text" maxlength="100" placeholder="Örn. Müzik üyeliği" autocomplete="off" required />
+          </label>
+          <label>Tutar (TL)
+            <input id="subscription-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Örn. 149,90" required />
+          </label>
+          <label>Ödeme periyodu
+            <select id="subscription-period" name="period" required><option value="monthly">Aylık</option><option value="yearly">Yıllık</option></select>
+          </label>
+          <label>Sonraki ödeme tarihi
+            <input id="subscription-next-date" name="nextPaymentDate" type="date" required />
+          </label>
+          <label>Gider kategorisi
+            <select id="subscription-category" name="categoryId" required><option value="">Kategoriler yükleniyor…</option></select>
+          </label>
+          <p class="form-feedback" id="subscription-form-feedback" role="status" aria-live="polite"></p>
+          <button class="button button-primary dialog-submit" id="subscription-submit" type="submit">Aboneliği kaydet</button>
+        </form>
+      </dialog>
+      <dialog class="confirm-dialog" id="subscription-confirm-dialog" aria-labelledby="subscription-confirm-title">
+        <form method="dialog" class="confirm-dialog-content">
+          <h2 id="subscription-confirm-title">Onay</h2>
+          <p class="muted" id="subscription-confirm-message"></p>
+          <div class="confirm-actions"><button class="button" value="cancel">Vazgeç</button><button class="button button-primary" id="subscription-confirm-action" value="confirm">Onayla</button></div>
+        </form>
+      </dialog>
+      <dialog class="subscription-dialog budget-dialog" id="budget-dialog" aria-labelledby="budget-dialog-title">
+        <form class="dialog-form subscription-form" id="budget-form" novalidate>
+          <button class="dialog-close" type="button" aria-label="Kapat">×</button>
+          <span class="dialog-icon" aria-hidden="true">▤</span>
+          <h2 id="budget-dialog-title">Bütçe ekle</h2>
+          <p class="muted">Bir gider kategorisi için aylık sınır belirle.</p>
+          <label>Bütçe adı
+            <input id="budget-name" name="name" type="text" maxlength="80" placeholder="Örn. Market bütçem" autocomplete="off" required />
+          </label>
+          <label>Gider kategorisi
+            <select id="budget-category" name="categoryId" required><option value="">Kategoriler yükleniyor…</option></select>
+          </label>
+          <label>Aylık bütçe (TL)
+            <input id="budget-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Örn. 5.000,00" required />
+          </label>
+          <p class="form-feedback" id="budget-form-feedback" role="status" aria-live="polite"></p>
+          <button class="button button-primary dialog-submit" id="budget-submit" type="submit">Bütçeyi kaydet</button>
+        </form>
+      </dialog>
+    </div>
+  </body>
+</html>
