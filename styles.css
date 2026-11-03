@@ -49,6 +49,7 @@ button { color: inherit; }
 .notification-empty, .notification-error { margin: 0; padding: 18px 8px; color: #9aa8bb; font-size: 11px; line-height: 1.5; text-align: center; }
 .notification-error { color: var(--expense); }
 .avatar { display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; border: 1px solid #3a514f; border-radius: 50%; color: #a9f1d4; background: #1b3837; font-size: 10px; font-weight: 700; }
+.avatar-icon { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
 .desktop-nav { display: none; }
 .dashboard { width: min(100%, 1280px); margin: 0 auto; padding: 0 var(--gutter) calc(96px + env(safe-area-inset-bottom)); }
 .welcome-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 24px 0 18px; }

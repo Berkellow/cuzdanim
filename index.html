@@ -19,7 +19,12 @@
         <div class="topbar-actions">
           <button class="icon-button notification-button" type="button" aria-label="Bildirimler" aria-expanded="false" aria-controls="notification-panel"><span aria-hidden="true">♧</span><span class="notification-count" id="notification-count" hidden></span></button>
           <a class="icon-button settings-button" href="#settings" aria-label="Ayarlar">⚙</a>
-          <div class="avatar" aria-label="Berke Kullanıcı">BK</div>
+          <div class="avatar" aria-label="Profil">
+            <svg class="avatar-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+            </svg>
+          </div>
         </div>
         <section class="notification-panel" id="notification-panel" aria-labelledby="notification-title" hidden>
           <div class="notification-panel-heading"><div><h2 id="notification-title">Bildirimler</h2><p id="notification-summary" class="muted">Bildirimler yükleniyor…</p></div><button id="notifications-read-all" type="button" class="notification-read-all" hidden>Tümünü okundu işaretle</button></div>
@@ -35,7 +40,7 @@
 
       <main id="home" class="dashboard">
         <section class="welcome-row">
-          <div><p class="eyebrow">PAZARTESİ, 2 KASIM 2026</p><h1>Merhaba, Berke <span aria-hidden="true">✦</span></h1><p class="muted">Finansal durumuna genel bir bakış.</p></div>
+          <div><p class="eyebrow">PAZARTESİ, 2 KASIM 2026</p><h1>Merhaba <span aria-hidden="true">✦</span></h1><p class="muted">Finansal durumuna genel bir bakış.</p></div>
         </section>
 
         <section class="overview-grid" aria-label="Finansal özet">
